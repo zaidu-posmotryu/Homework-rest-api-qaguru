@@ -1,0 +1,37 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+def slf4jVersion = '2.0.5'
+
+
+dependencies {
+    testImplementation(
+            "io.rest-assured:rest-assured:5.3.0",
+            'org.junit.jupiter:junit-jupiter:5.9.2',
+            "org.slf4j:slf4j-simple:$slf4jVersion",
+            'com.github.javafaker:javafaker:1.0.2'
+    )
+}
+
+tasks.withType(Test) {
+    systemProperties(System.getProperties())
+    useJUnitPlatform()
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
